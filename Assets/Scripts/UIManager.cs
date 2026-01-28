@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] private Text scoreText;
-    [SerializeField] private Text comboText;
-    [SerializeField] private Text highScoreText;
+    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text comboText;
+    [SerializeField] private TMP_Text highScoreText;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Button restartButton;
 

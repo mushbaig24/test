@@ -10,9 +10,10 @@ public class GridManager : MonoBehaviour
     
     public List<Card> SpawnCards(int rows, int cols, List<CardData> cardDataList, Sprite backSprite)
     {
-        // Return existing to pool
-        foreach (Transform child in container)
+        // Return existing to pool safely by iterating backwards
+        for (int i = container.childCount - 1; i >= 0; i--)
         {
+            Transform child = container.GetChild(i);
             if (child.TryGetComponent<Card>(out Card card))
             {
                 ObjectPooler.Instance.ReturnToPool(child.gameObject);
@@ -65,6 +66,9 @@ public class GridManager : MonoBehaviour
     public void AdjustGrid(int rows, int cols)
     {
         if (container == null || gridLayout == null) return;
+
+        // Force a layout rebuild to ensure container.rect is up to date
+        LayoutRebuilder.ForceRebuildLayoutImmediate(container);
 
         float width = container.rect.width;
         float height = container.rect.height;
