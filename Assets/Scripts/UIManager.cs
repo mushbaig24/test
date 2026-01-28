@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
         if (scoreText != null) scoreText.text = $"Score: {score}";
         if (comboText != null) 
         {
-            comboText.text = combo > 1 ? $"Combo x{combo}!" : "";
+            comboText.text = combo > -1 ? $"Combo x{combo}!" : "";
         }
     }
 

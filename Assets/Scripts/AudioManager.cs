@@ -4,7 +4,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] public AudioSource sfxSource;
     
     [Header("Clips")]
     [SerializeField] private AudioClip flipClip;
@@ -27,10 +27,30 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayFlip() => PlaySFX(flipClip);
-    public void PlayMatch() => PlaySFX(matchClip);
-    public void PlayMismatch() => PlaySFX(mismatchClip);
-    public void PlayGameOver() => PlaySFX(gameOverClip);
+    public void PlayFlip() 
+    {
+        sfxSource.pitch = 1.0f;
+        PlaySFX(flipClip);
+    }
+    
+    public void PlayMatch(int combo) 
+    {
+        // Increase pitch by 0.1 for each combo, capped at 2.0
+        sfxSource.pitch = Mathf.Min(1.0f + (combo * 0.1f), 2.0f);
+        PlaySFX(matchClip);
+    }
+    
+    public void PlayMismatch() 
+    {
+        sfxSource.pitch = 1.0f;
+        PlaySFX(mismatchClip);
+    }
+    
+    public void PlayGameOver() 
+    {
+        sfxSource.pitch = 1.0f;
+        PlaySFX(gameOverClip);
+    }
 
     private void PlaySFX(AudioClip clip)
     {

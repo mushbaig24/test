@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         score = 0;
         combo = 0;
         matchesFound = 0;
+        AudioManager.Instance?.sfxSource.Stop();
         pendingComparison.Clear();
         
         OnScoreChanged?.Invoke(score, combo);
@@ -94,7 +95,7 @@ public class GameManager : MonoBehaviour
             combo++;
             score += 100 * combo;
             
-            AudioManager.Instance?.PlayMatch();
+            AudioManager.Instance?.PlayMatch(combo);
             OnScoreChanged?.Invoke(score, combo);
             
             if (CheckGameOver())
