@@ -5,12 +5,17 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("UI Elements")]
+    [Header("Main Menu")]
+    [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private Button playButton;
+
+    [Header("Gameplay UI")]
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text comboText;
     [SerializeField] private TMP_Text highScoreText;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Button restartButton;
+    [SerializeField] private Button mainMenuButton;
 
     private void Start()
     {
@@ -25,9 +30,20 @@ public class UIManager : MonoBehaviour
             restartButton.onClick.AddListener(OnRestartClicked);
         }
 
+        if (mainMenuButton != null)
+        {
+            mainMenuButton.onClick.AddListener(OnBackToMainMenuClicked);
+        }
+
+        if (playButton != null)
+        {
+            playButton.onClick.AddListener(OnPlayClicked);
+        }
+
         UpdateHighScore();
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        if (comboText != null) comboText.text = "";
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        ResetMenuUI();
     }
 
     private void OnDestroy()
@@ -64,5 +80,25 @@ public class UIManager : MonoBehaviour
     {
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         GameManager.Instance.StartNewGame();
+    }
+
+    private void OnPlayClicked()
+    {
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+        GameManager.Instance.StartNewGame();
+    }
+
+    private void OnBackToMainMenuClicked()
+    {
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        GameManager.Instance.ReturnToMenu();
+        ResetMenuUI();
+    }
+
+    private void ResetMenuUI()
+    {
+        if (scoreText != null) scoreText.text = "Score";
+        if (comboText != null) comboText.text = "Combo meter";
     }
 }

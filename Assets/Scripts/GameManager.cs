@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     {
         // Load settings or layout if saved
         LoadProgress();
-        StartNewGame();
+        // Game will be started via Main Menu Play button
     }
 
     public void StartNewGame()
@@ -144,5 +144,17 @@ public class GameManager : MonoBehaviour
     {
         rows = r;
         columns = c;
+    }
+
+    public void ReturnToMenu()
+    {
+        StopAllCoroutines();
+        isGameOver = false;
+        score = 0;
+        combo = 0;
+        matchesFound = 0;
+        OnScoreChanged?.Invoke(score, combo);
+        gridManager.ClearGrid();
+        AudioManager.Instance?.sfxSource.Stop();
     }
 }

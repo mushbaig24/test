@@ -10,15 +10,7 @@ public class GridManager : MonoBehaviour
     
     public List<Card> SpawnCards(int rows, int cols, List<CardData> cardDataList, Sprite backSprite)
     {
-        // Return existing to pool safely by iterating backwards
-        for (int i = container.childCount - 1; i >= 0; i--)
-        {
-            Transform child = container.GetChild(i);
-            if (child.TryGetComponent<Card>(out Card card))
-            {
-                ObjectPooler.Instance.ReturnToPool(child.gameObject);
-            }
-        }
+        ClearGrid();
 
         // Adjust Grid
         AdjustGrid(rows, cols);
@@ -85,5 +77,19 @@ public class GridManager : MonoBehaviour
         // Keep aspect ratio square based on smallest dimension available
         float smallest = Mathf.Min(cellWidth, cellHeight);
         gridLayout.cellSize = new Vector2(smallest, smallest);
+    }
+
+    public void ClearGrid()
+    {
+        if (container == null) return;
+        
+        for (int i = container.childCount - 1; i >= 0; i--)
+        {
+            Transform child = container.GetChild(i);
+            if (child.TryGetComponent<Card>(out Card card))
+            {
+                ObjectPooler.Instance.ReturnToPool(child.gameObject);
+            }
+        }
     }
 }
